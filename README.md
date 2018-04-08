@@ -16,11 +16,13 @@ libpcap to sniff the raw interface traffic.
 To build knockd, make sure you have libpcap and the autoconf tools
 installed. Then run the following:
 
-    $ autoreconf -fi
-    $ ./configure --prefix=/usr/local
-    $ make
-    $ sudo make install
 
+```sh
+./autogen.sh
+./configure --prefix=/usr --sysconfdir=/etc
+make
+sudo make install
+```
 
 ### EXAMPLE  
 
