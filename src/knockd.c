@@ -418,6 +418,7 @@ void cleanup(int signum)
 				free(myip->value);
 			myips = myip->next;
 			free(myip);
+			myip = myips;
 		}
 	}
 
@@ -1458,7 +1459,8 @@ void sniff(u_char* arg, const struct pcap_pkthdr* hdr, const u_char* packet)
 	char proto[8];
 	/* TCP/IP data */
 	struct in_addr inaddr;
-	unsigned short sport, dport;
+	unsigned short sport = 0;
+	unsigned short dport = 0;
 	char srcIP[16], dstIP[16];
 	/* timestamp */
 	time_t pkt_secs = hdr->ts.tv_sec;
@@ -1634,11 +1636,11 @@ void sniff(u_char* arg, const struct pcap_pkthdr* hdr, const u_char* packet)
 					struct hostent *he;
 					/* create a new entry */
 					attempt = (knocker_t*)malloc(sizeof(knocker_t));
-					attempt->srchost = NULL;
 					if(attempt == NULL) {
 						perror("malloc");
 						exit(1);
 					}
+					attempt->srchost = NULL;
 					strcpy(attempt->src, srcIP);
 					/* try a reverse lookup if enabled  */
 					if (o_lookup) {
